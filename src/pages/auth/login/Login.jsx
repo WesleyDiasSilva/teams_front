@@ -11,16 +11,21 @@ import ContinueWithGoogle from "../../../components/auth/ContinueWithGoogle"
 function Login() {
   const [showPassword, setShowPassword] = useState(false)
 
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   return (
     <Container>
       <Banner />
       <BoxForm title={'Login'}>
-        <TextField id="standard-basic" label="E-mail" variant="outlined" />
+        <TextField value={email} onChange={({target}) => setEmail(target.value)} id="standard-basic" label="E-mail" variant="outlined" required/>
         <FormControl>
-          <InputLabel htmlFor="standard-adornment-password">Senha</InputLabel>
+          <InputLabel required htmlFor="standard-adornment-password">Senha</InputLabel>
           <OutlinedInput
+            value={password} 
+            onChange={({target}) => setPassword(target.value)}
             id="standard-adornment-password"
             type={showPassword ? 'text' : 'password'}
             endAdornment={
@@ -36,6 +41,7 @@ function Login() {
             }
             label="Password"
           />
+          <InputLabel required htmlFor="standard-adornment-password-confirm">Senha</InputLabel>
         </FormControl>
         <Button variant="contained">Login</Button>
         <RedirectPage link='/sign-in' text='Ainda não possui uma conta? Crie agora mesmo!'/>

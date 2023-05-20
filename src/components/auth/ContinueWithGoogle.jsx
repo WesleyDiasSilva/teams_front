@@ -1,9 +1,12 @@
 import GoogleButton from "react-google-button"
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { useState } from "react";
 
 
 function ContinueWithGoogle() {
+
+  const [loading, setLoading] = useState(false)
 
   const firebaseConfig = {
     apiKey: import.meta.env.VITE_APP_API_KEY_FIREBASE,
@@ -18,6 +21,8 @@ function ContinueWithGoogle() {
   const app = initializeApp(firebaseConfig);
   
   const signInWithGoogle = () => {
+    if(loading) return
+    setLoading(true)
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
@@ -33,7 +38,7 @@ function ContinueWithGoogle() {
       .catch((error) => {
         // Lidar com os erros aqui
         console.error(error);
-      });
+      }).finally(() => setLoading(false));
   }
 
   return (
