@@ -4,7 +4,7 @@ function BoxForm({title, children}) {
   return (
     <Container>
       <Title>{title}</Title>
-      <Form>
+      <Form gap={children.length > 5 ? '20px' : '30px'}>
         {children}
       </Form>
     </Container>
@@ -35,5 +35,5 @@ const Title = styled.h1`
 const Form = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: ${({gap}) => gap};
 `

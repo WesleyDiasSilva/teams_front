@@ -4,7 +4,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useState } from "react";
 
 
-function ContinueWithGoogle() {
+function ContinueWithGoogle({wait, setWait}) {
 
   const [loading, setLoading] = useState(false)
 
@@ -17,12 +17,29 @@ function ContinueWithGoogle() {
     appId: import.meta.env.VITE_APP_ID_FIREBASE,
     measurementId: import.meta.env.VITE_MEASUREMENT_ID_FIREBASE
   };
+
+  function changeWait() {
+    if(wait.text === 'Login') {
+      setWait({status: true, text: 'Fazendo login...'})
+    }else{
+      setWait({status: true, text: 'Registrando...'})
+    }
+  }
+
+  function backWait() {
+    if(wait.text === 'Fazendo login...') {
+      setWait({status: false, text: 'Login'})
+    }else{
+      setWait({status: false, text: 'Registrar'})
+    }
+  }
   
   const app = initializeApp(firebaseConfig);
   
   const signInWithGoogle = () => {
-    if(loading) return
+    if(loading || wait.status) return
     setLoading(true)
+    changeWait()
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
@@ -38,7 +55,10 @@ function ContinueWithGoogle() {
       .catch((error) => {
         // Lidar com os erros aqui
         console.error(error);
-      }).finally(() => setLoading(false));
+      }).finally(() => {
+        setLoading(false)
+        backWait()
+      });
   }
 
   return (

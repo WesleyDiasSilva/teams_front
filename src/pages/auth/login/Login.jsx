@@ -1,21 +1,31 @@
 import styled from "styled-components"
 import Banner from "../../../components/auth/Banner"
 import BoxForm from "../../../components/auth/BoxForm"
-import { Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material"
+import { Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField,  CircularProgress } from "@mui/material"
 import { useState } from "react"
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import RedirectPage from "../../../components/auth/RedirectPage"
 import ContinueWithGoogle from "../../../components/auth/ContinueWithGoogle"
 import { motion } from 'framer-motion'
+import CustomButton from "../../../components/auth/CustomButton"
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false)
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState({status: false, text: 'Login'})
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  function handleLogin() {
+    if(loading.status) return
+    setLoading({status: true, text: 'Fazendo login...'})
+    setTimeout(() => {
+      setLoading({status: false, text: 'Login'})
+    }, 2000);
+  }
 
   const variants = {
     hidden: { x: '100vw' },
@@ -56,9 +66,9 @@ function Login() {
           />
           <InputLabel required htmlFor="standard-adornment-password-confirm">Senha</InputLabel>
         </FormControl>
-        <Button variant="contained">Login</Button>
+        <CustomButton loading={loading} onClick={handleLogin}/>
         <RedirectPage link='/sign-in' text='Ainda não possui uma conta? Crie agora mesmo!'/>
-        <ContinueWithGoogle />
+        <ContinueWithGoogle wait={loading} setWait={setLoading}/>
       </BoxForm>
     </Container>
     </motion.div>
@@ -70,3 +80,4 @@ export default Login
 const Container = styled.div`
   display: flex;
 `
+

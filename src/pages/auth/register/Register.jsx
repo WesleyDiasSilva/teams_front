@@ -1,12 +1,13 @@
-import { Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material"
-import BoxForm from "../../../components/auth/BoxForm"
 import { Visibility, VisibilityOff } from "@mui/icons-material"
-import RedirectPage from "../../../components/auth/RedirectPage"
-import ContinueWithGoogle from "../../../components/auth/ContinueWithGoogle"
-import styled from "styled-components"
-import { useState } from "react"
-import Banner from "../../../components/auth/Banner"
+import { Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material"
 import { motion } from 'framer-motion'
+import { useState } from "react"
+import styled from "styled-components"
+import Banner from "../../../components/auth/Banner"
+import BoxForm from "../../../components/auth/BoxForm"
+import ContinueWithGoogle from "../../../components/auth/ContinueWithGoogle"
+import RedirectPage from "../../../components/auth/RedirectPage"
+import CustomButton from "../../../components/auth/CustomButton"
 
 
 function Register() {
@@ -19,6 +20,8 @@ function Register() {
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
 
+  const [loading, setLoading] = useState({status: false, text: 'Registrar'})
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowPasswordConfirm = () => setShowPasswordConfirm((show) => !show);
 
@@ -27,6 +30,14 @@ function Register() {
     visible: { x: 0 },
     exit: { x: '100vw' }
   };
+
+  function handleRegister() {
+    if(loading.status) return
+    setLoading({status: true, text: 'Registrando...'})
+    setTimeout(() => {
+      setLoading({status: false, text: 'Registrar'})
+    }, 2000);
+  }
 
   return (
     <motion.div
@@ -81,9 +92,9 @@ function Register() {
             label="Password"
           />
         </FormControl>
-        <Button variant="contained">Registrar</Button>
+        <CustomButton onClick={handleRegister} loading={loading}/>
         <RedirectPage link='/sign-up' text='Já possui uma conta? Faça Login agora mesmo!'/>
-        <ContinueWithGoogle />
+        <ContinueWithGoogle wait={loading} setWait={setLoading}/>
       </BoxForm>
       <Banner />
     </Container>
