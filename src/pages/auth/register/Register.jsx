@@ -6,6 +6,7 @@ import ContinueWithGoogle from "../../../components/auth/ContinueWithGoogle"
 import styled from "styled-components"
 import { useState } from "react"
 import Banner from "../../../components/auth/Banner"
+import { motion } from 'framer-motion'
 
 
 function Register() {
@@ -21,7 +22,19 @@ function Register() {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowPasswordConfirm = () => setShowPasswordConfirm((show) => !show);
 
+  const variants = {
+    hidden: { x: '-100vw' },
+    visible: { x: 0 },
+    exit: { x: '100vw' }
+  };
+
   return (
+    <motion.div
+    variants={variants}
+    initial="hidden"
+    animate="visible"
+    exit="exit"
+    >
     <Container>
       <BoxForm title={'Registre-se'}>
         <TextField value={email} onChange={({target}) => setEmail(target.value)} id="standard-basic" label="E-mail" variant="outlined" required/>
@@ -74,6 +87,7 @@ function Register() {
       </BoxForm>
       <Banner />
     </Container>
+    </motion.div>
   )
 }
 

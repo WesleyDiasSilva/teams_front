@@ -7,6 +7,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import RedirectPage from "../../../components/auth/RedirectPage"
 import ContinueWithGoogle from "../../../components/auth/ContinueWithGoogle"
+import { motion } from 'framer-motion'
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false)
@@ -16,7 +17,19 @@ function Login() {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+  const variants = {
+    hidden: { x: '100vw' },
+    visible: { x: 0 },
+    exit: { x: '-100vw' }
+  };
+
   return (
+    <motion.div
+    variants={variants}
+    initial="hidden"
+    animate="visible"
+    exit="exit"
+    >
     <Container>
       <Banner />
       <BoxForm title={'Login'}>
@@ -48,6 +61,7 @@ function Login() {
         <ContinueWithGoogle />
       </BoxForm>
     </Container>
+    </motion.div>
   )
 }
 
