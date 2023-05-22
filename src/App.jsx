@@ -1,10 +1,12 @@
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import GlobalStyles from '../src/assets/reset/reset';
-import HomePage from "./pages/homePage/HomePage";
+import HomePage from "./pages/home/HomePage";
 import Login from "./pages/auth/login/Login";
 import Register from "./pages/auth/register/Register";
 import styled from "styled-components";
+import SocialPage from "./pages/social/SocialPage";
+import ConfirmEmail from "./pages/auth/confirmEmail/ConfirmEmail";
 
 function RouteComponent() {
   const location = useLocation();
@@ -17,6 +19,8 @@ function RouteComponent() {
           <Route path="/" element={<HomePage />} />
           <Route path="/sign-up" element={<Login />} />
           <Route path="/sign-in" element={<Register />} />
+          <Route path="/social-teams" element={<SocialPage />} />
+          <Route path="/auth/validation/email/:code" element={<ConfirmEmail />} />
         </Routes>
       </AnimatePresence>
       </>
