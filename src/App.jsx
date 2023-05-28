@@ -8,6 +8,7 @@ import Login from "./pages/auth/login/Login";
 import Register from "./pages/auth/register/Register";
 import HomePage from "./pages/home/HomePage";
 import SocialPage from "./pages/social/SocialPage";
+import ProfilePage from "./pages/user/ProfilePage";
 
 function RouteComponent() {
   const location = useLocation();
@@ -22,6 +23,7 @@ function RouteComponent() {
           <Route path="/sign-in" element={<Register />} />
           <Route path="/social-teams" element={<SocialPage />} />
           <Route path="/auth/validation/email/:code" element={<ConfirmEmail />} />
+          <Route path="/my-profile" element={<ProfilePage />} />
         </Routes>
       </AnimatePresence>
       </>
@@ -48,4 +50,5 @@ const Content = styled.div`
   max-width: 100vw;
   height: 100vh;
   background-color: #000;
+  overflow-y: hidden;
 `;

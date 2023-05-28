@@ -16,7 +16,7 @@ function BoxForm({title, children}) {
 export default BoxForm
 
 const Container = styled.div`
-  background-color: #030d32;
+  background-color: #e3e3e3;
   width: 40%;
   height: 100vh;
   gap: 50px;

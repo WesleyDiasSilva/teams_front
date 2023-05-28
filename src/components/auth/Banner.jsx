@@ -1,9 +1,10 @@
 import styled from "styled-components"
+import Title from "../Title"
 
 function Banner() {
   return (
     <ContainerBanner>
-      <Title>Teams</Title>
+      <Title size='3rem'>Teams</Title>
       <Description>
         A melhor solução quando o assunto é integração, engajamento e produtividade para suas equipes.
       </Description>
@@ -25,12 +26,7 @@ const ContainerBanner = styled.div`
   gap: 30px;
 `
 
-const Title = styled.h1`
-  font-size: 3rem;
-  color: #fff;
-  font-weight: 700;
-  font-family: 'Passion one';
-`
+
 
 const Description = styled.p`
   font-size: 1.2rem;
