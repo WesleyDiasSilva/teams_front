@@ -1,12 +1,13 @@
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import styled from "styled-components";
 import GlobalStyles from '../src/assets/reset/reset';
-import HomePage from "./pages/home/HomePage";
+import { UserProvider } from "./contexts/UserContext";
+import ConfirmEmail from "./pages/auth/confirmEmail/ConfirmEmail";
 import Login from "./pages/auth/login/Login";
 import Register from "./pages/auth/register/Register";
-import styled from "styled-components";
+import HomePage from "./pages/home/HomePage";
 import SocialPage from "./pages/social/SocialPage";
-import ConfirmEmail from "./pages/auth/confirmEmail/ConfirmEmail";
 
 function RouteComponent() {
   const location = useLocation();
@@ -31,7 +32,9 @@ function App() {
   return (
     <BrowserRouter>
     <Content>
+      <UserProvider>
       <RouteComponent />
+      </UserProvider>
       </Content>
     </BrowserRouter>
   );

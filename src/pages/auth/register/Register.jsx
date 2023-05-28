@@ -17,7 +17,8 @@ function Register() {
 
   const navigate = useNavigate()
 
-  const [tooltip, setTooltip] = useState(false)
+  const [tooltip, setTooltip] = useState({status: false, severity: 'success', title: '', message: ''})
+  const [activeButton, setActiveButton] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false)
 
@@ -56,11 +57,6 @@ function Register() {
     setErrorPasswordConfirmation({ status: false, message: '' });
   }
 
-  const alertVariants = {
-    hidden: { x: "100vw" }, 
-    visible: { x: 0, transition: { duration: 0.5 } }, 
-  }
-
   function handleRegister() {
     if (loading.status) return;
 
@@ -95,38 +91,38 @@ function Register() {
     const response = signIn({ email, password, name: name.split(' ')[0], last_name: name.split(' ')[1]})
     response.then((res) => {
       setTooltip(true);
-      setTimeout(() => {
-        setLoading({status: false, text: 'Registrar'});
-        setTooltip(false);
+      setLoading({status: false, text: 'Registrar'});
+      setActiveButton(false)
+      setTimeout(() => { 
         navigate('/sign-up')
       }, 8000)
     }).catch((err) => {
-      setTooltip(false);
+      if(err.response.data.statusCode === 409) {
+        setTooltip({status: true, severity: 'error', title: 'Erro', message: 'E-mail inválido!'});
+        setLoading({status: false, text: 'Registrar'});
+        setTimeout(() => {
+          setTooltip({status: false, severity: 'error', title: '', message: ''});
+        }, 3000)
+        return;
+      }
+      setTooltip({status: true, severity: 'error', title: 'Erro', message: 'Erro ao registrar, tente novamente!'});
       setLoading({status: false, text: 'Registrar'});
-      console.log(err);
+      console.log(err.response.data.statusCode);
     })
   }
 
-  const isDisabled = errorEmail.status || errorName.status || errorPassword.status || errorPasswordConfirmation.status;
+  const isDisabled = errorEmail.status || errorName.status || errorPassword.status || errorPasswordConfirmation.status || !activeButton;
 
   return (
     <>
-      {tooltip ? 
+      {tooltip.status ? 
       <Container>
-        <motion.div
-        variants={alertVariants}
-        initial="hidden"
-        animate="visible"
-        style={{ position: "fixed", top: 0, right: 0, width: '30%' }} // Aplica diretamente no style do elemento
-        >
         <CustomAlert
-          title={'Conta Criada com Sucesso!'}
-          severity={'success'}
+          title={tooltip.title}
+          severity={tooltip.severity}
         >
-          <p>Sua conta foi criada com sucesso!</p>
-          <strong>Você receberá em instantes um e-mail de confirmação!</strong>
+          {tooltip.message}
         </CustomAlert>
-        </motion.div>
       <BoxForm title={'Registre-se'}>
         <TextField 
           value={email} 
